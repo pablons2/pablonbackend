@@ -1,15 +1,27 @@
 package main
 
 import (
-  "github.com/gofiber/fiber/v2"
+	"fmt"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/swagger"
+	_ "github.com/pablon/backend-pablon/docs" // caminho do módulo gerado por swag
+	"github.com/pablon/backend-pablon/config"
+	"github.com/pablon/backend-pablon/routes"
 )
 
+// @title Pablon API
+// @version 1.0
+// @description API para autenticação e parceiros
+// @host localhost:3000
+// @BasePath /api
 func main() {
-  app := fiber.New()
+	cfg := config.GetConfig()
+	app := fiber.New()
 
-  app.Get("/", func(c *fiber.Ctx) error {
-    return c.SendString("🚀 API Go + Fiber funcionando!")
-  })
+	app.Get("/swagger/*", swagger.HandlerDefault) // swagger docs
 
-  app.Listen(":3000")
+	routes.SetupRoutes(app) // define as rotas
+
+	port := fmt.Sprintf(":%s", cfg.Port)
+	app.Listen(port)
 }

@@ -1,0 +1,59 @@
+basePath: /api
+host: localhost:3000
+info:
+  contact: {}
+  description: API para autenticação e parceiros
+  title: Pablon API
+  version: "1.0"
+paths:
+  /api/auth/google:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Token
+        in: body
+        name: token
+        required: true
+        schema:
+          additionalProperties:
+            type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Valida token do Google recebido do NextAuth
+  /api/secure/profile:
+    get:
+      description: Get user profile information
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get user profile
+swagger: "2.0"
